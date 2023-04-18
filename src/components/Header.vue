@@ -19,8 +19,11 @@
             </div>
             <!-- Theme Switch -->
             <div class="header__settings--themes d-flex align-items-center">
-                <input type="checkbox" class="toggle" v-model="darkTheme">
-                <img src="../assets/dark-mode.png" class="theme-img">
+                <input type="checkbox" class="toggle" v-model="themeToggle" @click="changeTheme">
+                <div class="theme-imgs" id="themeImg">
+                    <img src="../assets/dark-mode.png" class="light">
+                    <img src="../assets/light.png" class="dark">
+                </div>
             </div>
         </div>
     </div>
@@ -31,7 +34,40 @@
 export default {
     data() {
         return {
-            darkTheme: false
+            themeToggle: false,
+            theme: 'light'
+        }
+    },
+    created() {
+        this.getTheme();
+    },
+    methods: {
+        changeTheme() {
+            let theme = 'light';
+
+            if (this.theme == 'light') {
+                document.body.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                this.theme = 'dark';
+            } else {
+                document.body.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                this.theme = 'light';
+            }
+        },
+        getTheme() {
+            let theme = localStorage.getItem('theme');
+
+            if (theme == 'dark') {
+                document.body.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                this.theme = 'dark';
+                this.themeToggle = true;
+            } else {
+                document.body.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                this.theme = 'light';
+            }
         }
     }
 }
@@ -112,9 +148,15 @@ export default {
         }
 
         /* Theme Switch */
-        &--themes .theme-img {
-            width: 36px;
-            margin-left: 25px;
+        &--themes .theme-imgs {
+            img {
+                width: 36px;
+                margin-left: 25px;
+
+                &.dark {
+                    display: none;
+                }
+            }
         }
     }
 }
@@ -155,8 +197,27 @@ export default {
             background: var.$clr-white;
         }
         &::after {
-            left: calc(100% - 14px);
+            left: calc(100% - 16px);
             background: var.$clr-txt-grey;
+        }
+    }
+}
+
+// Dark Theme
+body.dark {
+    .header {
+        &__brand {
+            filter: invert(1);
+        }
+
+        &__settings--themes img {
+            &.dark {
+                display: inline-block;
+                filter: invert(1);
+            }
+            &.light {
+                display: none;
+            }
         }
     }
 }

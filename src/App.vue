@@ -97,4 +97,19 @@ export default {
     }
   }
 }
+@media only screen and (max-width: 991px) {
+  .form {
+    padding: 20px 0;
+  }
+}
+
+// Dark Mode Styles
+body.dark {
+  .form__input {
+    background: var.$clr-txt-dark;
+    input {
+      color: var.$clr-white;
+    }
+  }
+}
 </style>

@@ -46,14 +46,17 @@
     </div>
 
     <!-- Not found Section -->
-    <div class="not-found" v-if="!data">
-        <h1>Word not found.</h1>
-    </div>
+    <NotFound v-if="!data" />
 </template>
 
 <script>
+import NotFound from './NotFound.vue';
+
 export default {
     props: ['data'],
+    components: {
+        NotFound,
+    },
     methods: {
         playAudio() {
             audio.play();
@@ -191,6 +194,24 @@ export default {
                 text-decoration: none;
             }
         }
+    }
+}
+// Dark Mode Styles
+body.dark {
+    .line {
+        background: var.$clr-txt-dark;
+    }
+    .word__title, .def__category .name, .def li {
+        color: var.$clr-white;
+    }
+    .def .title, .definitions__source h3, .definitions__source a {
+        color: var.$clr-lt-grey;
+    }
+}
+// RWD
+@media only screen and (max-width: 991px) {
+    .definitions__source {
+        padding-bottom: 60px;
     }
 }
 </style>

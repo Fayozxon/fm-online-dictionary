@@ -13,6 +13,7 @@
 body {
   font-family: 'PT Serif', serif;
   font-weight: 400;
+  color: var.$clr-txt-dark;
 }
 
 /* Body Font Styles */
@@ -26,4 +27,8 @@ body.serif {
 
 body.mono {
   font-family: 'Source Code Pro', monospace;
+}
+
+body.dark {
+  background: var.$clr-bg-dark;
 }
