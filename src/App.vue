@@ -43,7 +43,6 @@ export default {
       let data  = await res.json();
 
       this.word = '';
-      console.log(data);
       this.data = data[0];
     }
   }

@@ -8,13 +8,13 @@
         <div class="header__settings d-flex align-items-center">
             <div class="header__settings--fonts">
                 <h3 class="title">
-                    Serif
+                    {{ currentFontStyle }}
                     <img src="../assets/down.png">
                 </h3>
                 <div class="options">
-                    <h3 class="serif active">Serif</h3>
-                    <h3 class="sans">Sans Serif</h3>
-                    <h3 class="mono">Monospace</h3>
+                    <h3 class="serif" :class="{'active': currentFontStyleId == 1}" @click="changeFontStyle" data-id="1">Serif</h3>
+                    <h3 class="sans" :class="{'active': currentFontStyleId == 2}" @click="changeFontStyle" data-id="2">Sans Serif</h3>
+                    <h3 class="mono" :class="{'active': currentFontStyleId == 3}" @click="changeFontStyle" data-id="3">Monospace</h3>
                 </div>
             </div>
             <!-- Theme Switch -->
@@ -35,11 +35,14 @@ export default {
     data() {
         return {
             themeToggle: false,
-            theme: 'light'
+            theme: 'light',
+            currentFontStyle: 'Serif',
+            currentFontStyleId: 1
         }
     },
     created() {
         this.getTheme();
+        this.getFontStyle();
     },
     methods: {
         changeTheme() {
@@ -68,6 +71,46 @@ export default {
                 localStorage.setItem('theme', 'light');
                 this.theme = 'light';
             }
+        },
+        changeFontStyle(e) {
+            let id = e.target.getAttribute('data-id');
+            this.currentFontStyleId = id;
+            localStorage.setItem('fontStyleId', id);
+
+            if (id == '1') {
+                this.currentFontStyle = 'Serif';
+                document.body.classList.remove('sans','mono');
+                document.body.classList.add('serif');
+            } else if (id == '2') {
+                this.currentFontStyle = 'Sans Serif';
+                document.body.classList.remove('serif','mono');
+                document.body.classList.add('sans');
+            } else if (id == '3') {
+                this.currentFontStyle = 'Monospace';
+                document.body.classList.remove('sans','serif');
+                document.body.classList.add('mono');
+            }
+        },
+        getFontStyle() {
+            let id = localStorage.getItem('fontStyleId');
+            this.currentFontStyleId = id;
+
+            if (id) {
+                if (id == '1') {
+                    this.currentFontStyle = 'Serif';
+                    document.body.classList.remove('sans','mono');
+                    document.body.classList.add('serif');
+                } else if (id == '2') {
+                    this.currentFontStyle = 'Sans Serif';
+                    document.body.classList.remove('serif','mono');
+                    document.body.classList.add('sans');
+                } else if (id == '3') {
+                    this.currentFontStyle = 'Monospace';
+                    document.body.classList.remove('sans','serif');
+                    document.body.classList.add('mono');
+                }
+            }
+
         }
     }
 }
@@ -109,24 +152,24 @@ export default {
                 position: absolute;
                 top: 100%;
                 left: 0;
-                padding: 20px;
+                padding: 20px 30px;
                 background: var.$clr-white;
                 border-radius: 7px;
                 transition: 0.3s;
                 opacity: 0;
-                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+                box-shadow: 0 10px 20px rgba(0,0,0,0.05);
                 pointer-events: none;
 
                 h3 {
                     font-weight: 400;
                     font-size: var.$fs-txt-20;
-                    margin: 5px 0;
+                    margin: 8px 0;
                     cursor: pointer;
                     color: var.$clr-txt-grey;
 
                     &.active {
                         color: var.$clr-txt-dark;
-                        font-weight: 700;
+                        font-weight: var.$fw-bold;
                     }
 
                     &.serif {
@@ -210,13 +253,34 @@ body.dark {
             filter: invert(1);
         }
 
-        &__settings--themes img {
-            &.dark {
-                display: inline-block;
-                filter: invert(1);
+        &__settings {
+            &--themes img {
+                &.dark {
+                    display: inline-block;
+                    filter: invert(1);
+                }
+                &.light {
+                    display: none;
+                }
             }
-            &.light {
-                display: none;
+
+            &--fonts {
+                .title {
+                    color: var.$clr-white;
+                }
+
+                .options {
+                    background: var.$clr-bg-dark;
+
+                    h3 {
+                        opacity: 0.7;
+                        color: var.$clr-lt-grey;
+
+                        &.active {
+                            opacity: 1;
+                        }
+                    }
+                }
             }
         }
     }

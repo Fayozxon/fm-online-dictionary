@@ -85,11 +85,12 @@ export default {
 .word {
   &__title {
     font-size: var.$fs-accent-50;
+    font-weight: var.$fw-bold;
   }
 
   &__pronounciation {
     font-size: var.$fs-title-40;
-    font-weight: 400;
+    font-weight: var.$fw-regular;
     font-family: Inter, sans-serif !important;
     color: var.$clr-accent-purple;
   }
@@ -139,7 +140,7 @@ export default {
         .title {
             font-size: var.$fs-title-30;
             color: var.$clr-txt-grey;
-            font-weight: 400;
+            font-weight: var.$fw-regular;
         }
 
         ul {
@@ -165,6 +166,7 @@ export default {
             
             .synonym {
                 color: var.$clr-accent-purple;
+                font-weight: var.$fw-bold;
                 padding: 5px 15px;
                 padding-left: 0;
             }
